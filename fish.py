@@ -9,28 +9,24 @@ window.resize(400, 300)
 label = QLabel("hello world", window)
 
 
+x = 0
+y = 0000
 
-label.show()
-x =0
-y = 0
-
-
+window.show
 def move():
-    global x, y
-    x += 1
-    y += 1
-    label.move(x,y)
+    global x , y
+    x += 2
+    y+=2
+    window.move(x,y)
+
+
+
 
 move()
 timer = QTimer()
 timer.timeout.connect(move)
-timer.start(30)
+timer.start(16)
     
 app.exec()
-
-
-
-
-
 
 
