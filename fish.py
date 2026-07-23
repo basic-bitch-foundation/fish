@@ -7,7 +7,7 @@ app = QApplication(sys.argv)
 window = QWidget()
 pixmap = QPixmap("fish.png")
 
-window.resize(400, 300)
+window.resize(1960, 1080)
 
 if pixmap.isNull():
     print("no fihh broo")
@@ -22,11 +22,21 @@ window.show()
 x = 0
 y = 0
 
+
 def move():
-    global x,y
-    timer = QTimer()
-    timer.timeout.connect(move)
-    timer.start(16)
-    app.exec()
+    global x,y,vy,vx
+   
+    
+
+    
+move()
+
+timer = QTimer()
+timer.timeout.connect(move)
+timer.start(16)
+
+app.exec()
+
+
 
 
