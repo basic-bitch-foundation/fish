@@ -1,66 +1,75 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget , QLabel
+from PySide6.QtWidgets import QApplication, QWidget, QLabel
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QPixmap, QTransform
 
 app = QApplication(sys.argv)
-window = QWidget()
+
 pixmap = QPixmap("fish.png")
 
-window.resize(1960, 1080)
-
 if pixmap.isNull():
-    print("no fihh broo")
+    print("Couldn't load fish.png")
     sys.exit()
-right_pixmap = pixmap
-left_pixmap = pixmap.transformed(QTransform().scale(-1,1))
 
+
+right_pixmap = pixmap
+left_pixmap = pixmap.transformed(QTransform().scale(-1, 1))
+
+window = QWidget()
+window.setWindowTitle("Fish")
+window.resize(pixmap.width(), pixmap.height())
 
 fish = QLabel(window)
-fish.setPixmap(pixmap)
+fish.setPixmap(right_pixmap)
 fish.resize(pixmap.size())
-fish.move(0,0)
+fish.move(0, 0)
 
-x = 0
-y = 0
+window.show()
+
+screen = app.primaryScreen().availableGeometry()
+
+x = 100
+y = 100
+
 vx = 5
 vy = 3
 
-fish.move(x,y)
-window.show()
+window.move(x, y)
+
+
 def move():
-    global x,y,vx,vy
+    global x, y, vx, vy
+
     x += vx
     y += vy
-    if x <= 0:
-        x =0
-        vx= abs(vx)
-    elif x  + fish.width() >= window.width():
-        x = window.width() - fish.width()
+
+    if x <= screen.left():
+        x = screen.left()
+        vx = abs(vx)
+
+    elif x + window.width() >= screen.right():
+        x = screen.right() - window.width()
         vx = -abs(vx)
 
-    if y <= 0:
-        y =0
+    if y <= screen.top():
+        y = screen.top()
         vy = abs(vy)
-    elif y + fish.height() >= window.height():
-        y= window.height() -fish.height()
+
+    elif y + window.height() >= screen.bottom():
+        y = screen.bottom() - window.height()
         vy = -abs(vy)
-    if vx>0:
+
+    
+    if vx > 0:
         fish.setPixmap(right_pixmap)
     else:
         fish.setPixmap(left_pixmap)
-    
-    fish.move(x,y)
 
-move()
+    window.move(x, y)
+
 
 timer = QTimer()
 timer.timeout.connect(move)
-timer.start(16)
-
-
+timer.start(16)  
 
 sys.exit(app.exec())
-
-
-
